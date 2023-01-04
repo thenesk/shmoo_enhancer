@@ -136,12 +136,12 @@ function time_click_handler(element) {
 	dlg.innerText = table.rows[0].cells[0].innerText  // date from top of original table
 	
 	// add close button
-	dlg.innerHTML += '<button style="float:right;margin-right:20px;" onclick="closePreviewDialog()">Close</button>';
+	dlg.innerHTML += '<button style="float:right;margin-right:20px;" onclick="window.history.back()">Close</button>';
 	
 	// add table
-	dlg.appendChild(newTable)
+	dlg.appendChild(newTable);
 	
-	// add history entry next back button press can just close dialog
+	// add history entry since we use back button to close dialog
 	window.history.pushState('forward', null);
 	
 }
@@ -156,7 +156,10 @@ function closePreviewDialog() {
 function keyPress (e) {
 	// console.log('key press: '+e.key);
     if(e.key === "Escape") {
-    	closePreviewDialog();
+		var dlg = document.getElementById('previewDialog');
+		if(dlg != null) {
+	    	window.history.back();
+		}
     }
 }
 
