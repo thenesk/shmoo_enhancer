@@ -2,6 +2,11 @@
   Script to enhance "https://shmoocon.org/schedule/"
   Adds a link to the time column, opening a dialog containing 
   descriptions of the talks at that time.
+  
+  To use:
+  1) go to https://shmoocon.org/schedule/
+  2) paste this script into the inspect console
+  3) click the new bold time links to see talk descriptions side by side
 */
 
 const SPEAKER_PAGE = '/speakers';
@@ -46,7 +51,7 @@ function time_click_handler(element) {
 		}
 		
 		// get talk name and presenters
-		var summary = cells[j].innerText.split(/\r?\n/);
+		var summary = cells[j].innerText.trim().split(/\r?\n/);
 		var what = summary[0];
 		var who = summary[summary.length-1];
 		
