@@ -10,7 +10,6 @@
   
   todo:
   fwd repopen
-  mobile preview 
   mobile carsell 
   site navigation
 */
@@ -68,6 +67,7 @@ function time_click_handler(element) {
 		newTd.style.border = '1px solid black';
 		newTd.style.verticalAlign = 'top';
 		newTd.style.overflow = 'auto';
+		newTd.style.scrollSnapStop = 'normal';
 		
 		newTd.appendChild(makeTag('span', {innerText: 'Where: '}));
 		newTd.appendChild(makeTag('b', {innerText: where}));
@@ -85,7 +85,6 @@ function time_click_handler(element) {
 		newTd.appendChild(makeTag('b', {innerText: who}));
 		newTd.appendChild(makeTag('br'));
 		
-
 		// find anchor name for this talk
 		var anchors = cells[j].getElementsByTagName('a');
 		var anchorName = null;
@@ -146,15 +145,18 @@ function time_click_handler(element) {
     dlg.style.boxSizing='border-box';
     dlg.style.zIndex=99993;
     dlg.style.padding='4px'
-    dlg.style.overflow='auto'
 	dlg.style.backgroundColor=getComputedStyle(document.body).backgroundColor;
 	dlg.style.color=getComputedStyle(document.body).color;
+    dlg.style.overflow='auto'
+	dlg.style.scrollSnapType='x proximity';
 
 	// nav div
 	var navDiv = document.createElement('div');
 	navDiv.style.position = 'sticky';
 	navDiv.style.top=0;
 	navDiv.style.left=0;
+	navDiv.style.margin=0;
+	navDiv.style.padding='4px';
 	navDiv.style.backgroundColor=getComputedStyle(document.body).backgroundColor;
 	navDiv.style.boxShadow='rgba(0, 0, 0, 0.24) 0px 3px 8px';
 
@@ -162,7 +164,7 @@ function time_click_handler(element) {
 	navDiv.innerText = table.rows[0].cells[0].innerText  // date from top of original table
 	
 	// add close button
-	navDiv.innerHTML += '<button style="float:right;margin-right:20px;" onclick="window.history.back()">Close</button>';
+	navDiv.innerHTML += '<button style="float:right;margin:4px;" onclick="window.history.back()">Close</button><div style="clear:both;"></div>';
 	
 	// add table
 	dlg.appendChild(navDiv);
