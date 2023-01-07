@@ -7,6 +7,12 @@
   1) go to https://shmoocon.org/schedule/
   2) paste this script into the inspect console
   3) click the new bold time links to see talk descriptions side by side
+  
+  todo:
+  fwd repopen
+  mobile preview 
+  mobile carsell 
+  site navigation
 */
 
 const SPEAKER_PAGE = '/speakers';
@@ -24,9 +30,8 @@ function time_click_handler(element) {
 	
 	// new table that we create
 	var newTable = document.createElement('table');
-	newTable.style.width='calc(100% - 10px)';
-	newTable.style.maxHeight = 'calc(100vh - 50px)';
-	newTable.style.display = 'block';
+	newTable.style.width='100%';
+	newTable.style.tableLayout='fixed';
 	var newTr = newTable.insertRow();
 	
 	// existing table we will scrape data from
@@ -34,6 +39,9 @@ function time_click_handler(element) {
 	var tr = td.closest('tr');
 	var table = tr.closest('table');
 	var cells = table.rows[tr.rowIndex].cells;
+	
+	// min table width
+	newTable.style.minWidth='' + (cells.length * 260) + 'px';
 	
 	// get time
 	var when = cells[0].innerText
@@ -96,6 +104,7 @@ function time_click_handler(element) {
 			for(var k=0; k<anchors.length; k++) {
 				if(anchors[k].name == anchorName) {
 					var speakerElement = anchors[k].parentElement;
+					// console.log('found anchor on speaker page')
 					break;
 				}
 			}
@@ -104,11 +113,13 @@ function time_click_handler(element) {
 		while(speakerElement != null) {
 			count++;
 			// console.log(speakerElement);
-			if((speakerElement.tagName == 'P')&&(count > 5)) {
+			if(speakerElement.tagName == 'P') {
 				if(!speakerElement.style.fontStyle.includes('italic')) {
-					var newP = document.createElement('p');
-					newP.innerHTML = speakerElement.innerHTML;
-					newTd.appendChild(newP);
+					if(!speakerElement.style.fontSize.includes('large')) {
+						var newP = document.createElement('p');
+						newP.innerHTML = speakerElement.innerHTML;
+						newTd.appendChild(newP);
+					}
 				}
 			}
 			if((speakerElement.tagName == 'HR')||(count > 20)) {
@@ -132,8 +143,10 @@ function time_click_handler(element) {
     dlg.style.height='100%';
     dlg.style.left=0;
     dlg.style.top=0;
-    dlg.style.zIndex=4000;
+    dlg.style.boxSizing='border-box';
+    dlg.style.zIndex=99993;
     dlg.style.padding='4px'
+    dlg.style.overflow='auto'
 	dlg.style.backgroundColor=getComputedStyle(document.body).backgroundColor;
 	dlg.style.color=getComputedStyle(document.body).color;
 
@@ -149,6 +162,9 @@ function time_click_handler(element) {
 	// add history entry since we use back button to close dialog
 	window.history.pushState('forward', null);
 	
+	// disable scrolling on main page
+	document.body.style.overflow = 'hidden';
+	
 }
 
 function closePreviewDialog() {
@@ -156,6 +172,8 @@ function closePreviewDialog() {
 	if(dlg != null) {
 		dlg.remove();
 	}
+	// re-enable scrolling on main page
+	document.body.style.overflow = '';
 }
 
 function keyPress (e) {
