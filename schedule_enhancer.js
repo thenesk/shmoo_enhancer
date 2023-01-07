@@ -7,11 +7,6 @@
   1) go to https://shmoocon.org/schedule/
   2) paste this script into the inspect console
   3) click the new bold time links to see talk descriptions side by side
-  
-  todo:
-  fwd repopen
-  mobile carsell 
-  site navigation
 */
 
 const SPEAKER_PAGE = '/speakers';
@@ -26,12 +21,7 @@ function makeTag(tag, options) {
 }
 
 function time_click_handler(element) {
-	
-	// new table that we create
-	var newTable = document.createElement('table');
-	newTable.style.width='100%';
-	newTable.style.tableLayout='fixed';
-	var newTr = newTable.insertRow();
+	// called when time link clicked
 	
 	// existing table we will scrape data from
 	var td = this.closest('td');
@@ -39,8 +29,13 @@ function time_click_handler(element) {
 	var table = tr.closest('table');
 	var cells = table.rows[tr.rowIndex].cells;
 	
-	// min table width
+	// new table that we create
+	var newTable = document.createElement('table');
+	newTable.style.margin='4px';
+	newTable.style.width='100%';
+	newTable.style.tableLayout='fixed';
 	newTable.style.minWidth='' + ((cells.length-1) * 340) + 'px';
+	var newTr = newTable.insertRow();
 	
 	// get time
 	var when = cells[0].innerText
@@ -68,6 +63,7 @@ function time_click_handler(element) {
 		newTd.style.verticalAlign = 'top';
 		newTd.style.overflow = 'auto';
 		newTd.style.scrollSnapStop = 'normal';
+		newTd.style.scrollSnapAlign = 'center';
 		
 		newTd.appendChild(makeTag('span', {innerText: 'Where: '}));
 		newTd.appendChild(makeTag('b', {innerText: where}));
@@ -144,7 +140,7 @@ function time_click_handler(element) {
     dlg.style.top=0;
     dlg.style.boxSizing='border-box';
     dlg.style.zIndex=99993;
-    dlg.style.padding='4px'
+    dlg.style.padding='0px'
 	dlg.style.backgroundColor=getComputedStyle(document.body).backgroundColor;
 	dlg.style.color=getComputedStyle(document.body).color;
     dlg.style.overflow='auto'
@@ -164,7 +160,7 @@ function time_click_handler(element) {
 	navDiv.innerText = table.rows[0].cells[0].innerText  // date from top of original table
 	
 	// add close button
-	navDiv.innerHTML += '<button style="float:right;margin:4px;" onclick="window.history.back()">Close</button><div style="clear:both;"></div>';
+	navDiv.innerHTML += '<button style="float:right;margin:0px 6px 0px 2px;padding:0px 2px 0px 2px;" onclick="window.history.back()">Close</button><div style="clear:both;"></div>';
 	
 	// add table
 	dlg.appendChild(navDiv);
