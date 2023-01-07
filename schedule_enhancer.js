@@ -41,7 +41,7 @@ function time_click_handler(element) {
 	var cells = table.rows[tr.rowIndex].cells;
 	
 	// min table width
-	newTable.style.minWidth='' + (cells.length * 260) + 'px';
+	newTable.style.minWidth='' + ((cells.length-1) * 340) + 'px';
 	
 	// get time
 	var when = cells[0].innerText
@@ -150,13 +150,22 @@ function time_click_handler(element) {
 	dlg.style.backgroundColor=getComputedStyle(document.body).backgroundColor;
 	dlg.style.color=getComputedStyle(document.body).color;
 
+	// nav div
+	var navDiv = document.createElement('div');
+	navDiv.style.position = 'sticky';
+	navDiv.style.top=0;
+	navDiv.style.left=0;
+	navDiv.style.backgroundColor=getComputedStyle(document.body).backgroundColor;
+	navDiv.style.boxShadow='rgba(0, 0, 0, 0.24) 0px 3px 8px';
+
 	// add content to dialog
-	dlg.innerText = table.rows[0].cells[0].innerText  // date from top of original table
+	navDiv.innerText = table.rows[0].cells[0].innerText  // date from top of original table
 	
 	// add close button
-	dlg.innerHTML += '<button style="float:right;margin-right:20px;" onclick="window.history.back()">Close</button>';
+	navDiv.innerHTML += '<button style="float:right;margin-right:20px;" onclick="window.history.back()">Close</button>';
 	
 	// add table
+	dlg.appendChild(navDiv);
 	dlg.appendChild(newTable);
 	
 	// add history entry since we use back button to close dialog
